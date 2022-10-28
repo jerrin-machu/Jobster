@@ -34,7 +34,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-    <h2>Navbar</h2>
+   
     </Wrapper>
     </>
     
