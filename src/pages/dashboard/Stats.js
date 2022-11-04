@@ -1,9 +1,28 @@
-import React from 'react'
+import { useEffect } from "react";
+import { StatsContainer, Loading, ChartsContainer } from "../../components";
+import { useDispatch, useSelector } from "react-redux";
+import { showStatus } from "../../features/allJobs/allJobsSlice";
 
 const Stats = () => {
+  const { isLoading, monthlyApplications } = useSelector((store) => store.allJobs)
+  const dispatch = useDispatch()
+  useEffect(() => {
+    
+  dispatch(showStatus())
+    
+  }, [])
+
+  if(isLoading){
+    return <Loading center/>
+  }
   return (
-    <h1>Stats</h1>
+    <>
+    <StatsContainer/>
+    { monthlyApplications.length > 0 && <ChartsContainer/>}
+    </>
   )
+  
+  
 }
 
 export default Stats
