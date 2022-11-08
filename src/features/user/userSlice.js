@@ -2,6 +2,21 @@ import { createSlice, createAsyncThunk} from "@reduxjs/toolkit"
 import { toast} from "react-toastify"
 import customFetch from "../../utils/axios"
 import { addUserToLocalStorage, getUserFromLocalStorage, removeUserFromLocalStorage } from "../../utils/localStorage";
+import { clearAllJobsState } from "../allJobs/allJobsSlice";
+import { clearValues } from "../job/jobSlice";
+
+export const clearStore = createAsyncThunk('user/clearStore', async(message, thunkAPI) => {
+    try {
+        thunkAPI.dispatch(logoutUser(message))
+        thunkAPI.dispatch(clearAllJobsState())
+        thunkAPI.dispatch(clearValues())
+        return Promise.resolve()
+    } catch (error) {
+        return Promise.reject()
+    }
+})
+
+
 
 
 export const registerUser = createAsyncThunk('user/registerUser', async(user,thunkAPI)=> {
@@ -113,6 +128,9 @@ const userSlice = createSlice({
     [updateUser.rejected]: (state, { payload } ) => {
         state.isLoading = false;
         toast.error(payload)
+    },
+    [clearStore.rejected]:() => {
+        toast.error('There was an error')
     }
 }
 })
